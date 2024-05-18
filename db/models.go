@@ -8,8 +8,6 @@ import ()
 
 type Transaction struct {
 	ID               int32
-	BuyerToken       string
-	SellerToken      string
 	BuyerAddress     string
 	SellerAddress    string
 	TransactionToken string
