@@ -14,9 +14,9 @@ func StartServer() {
 		return
 	}
 
-	mediaS := service.NewServer()
+	safeSendS := service.NewServer()
 
-	service.Init(mediaS)
+	service.Init(safeSendS)
 
 	if err := http.Serve(lis, nil); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
