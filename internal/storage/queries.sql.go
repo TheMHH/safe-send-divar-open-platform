@@ -9,26 +9,29 @@ import (
 	"context"
 )
 
-const insertTransaction = `-- name: insertTransaction :one
-INSERT INTO transactions (buyer_address, seller_address, transaction_token)
+const initializeTransaction = `-- name: InitializeTransaction :one
+INSERT INTO transactions (post_token, supplier_id, demand_id)
 VALUES ($1, $2, $3)
-RETURNING id, buyer_address, seller_address, transaction_token
+RETURNING transaction_id, buyer_address, seller_address, post_token, callback_url, supplier_id, demand_id
 `
 
-type insertTransactionParams struct {
-	BuyerAddress     string
-	SellerAddress    string
-	TransactionToken string
+type InitializeTransactionParams struct {
+	PostToken  string
+	SupplierID string
+	DemandID   string
 }
 
-func (q *Queries) insertTransaction(ctx context.Context, arg insertTransactionParams) (Transaction, error) {
-	row := q.db.QueryRow(ctx, insertTransaction, arg.BuyerAddress, arg.SellerAddress, arg.TransactionToken)
+func (q *Queries) InitializeTransaction(ctx context.Context, arg InitializeTransactionParams) (Transaction, error) {
+	row := q.db.QueryRow(ctx, initializeTransaction, arg.PostToken, arg.SupplierID, arg.DemandID)
 	var i Transaction
 	err := row.Scan(
-		&i.ID,
+		&i.TransactionID,
 		&i.BuyerAddress,
 		&i.SellerAddress,
-		&i.TransactionToken,
+		&i.PostToken,
+		&i.CallbackUrl,
+		&i.SupplierID,
+		&i.DemandID,
 	)
 	return i, err
 }

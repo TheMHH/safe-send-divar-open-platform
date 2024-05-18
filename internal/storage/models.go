@@ -4,11 +4,16 @@
 
 package storage
 
-import ()
+import (
+	"github.com/jackc/pgx/v5/pgtype"
+)
 
 type Transaction struct {
-	ID               int32
-	BuyerAddress     string
-	SellerAddress    string
-	TransactionToken string
+	TransactionID pgtype.UUID
+	BuyerAddress  pgtype.Text
+	SellerAddress pgtype.Text
+	PostToken     string
+	CallbackUrl   string
+	SupplierID    string
+	DemandID      string
 }
