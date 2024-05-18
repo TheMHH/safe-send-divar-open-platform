@@ -6,17 +6,19 @@ import (
 )
 
 type Server struct {
-	hmacSecret string
+	Token  string
+	ApiKey string
 }
 
 func NewServer() *Server {
 	return &Server{
-		hmacSecret: os.Getenv("SECRET_KEY"),
+		Token:  os.Getenv("SECRET_KEY"),
+		ApiKey: os.Getenv("API_KEY"),
 	}
 }
 
 func Init(s *Server) {
-	http.Handle("/url1", Middleware(http.HandlerFunc(s.func1)))
-	http.Handle("/url2", Middleware(http.HandlerFunc(s.func2)))
-	http.Handle("/url3", Middleware(http.HandlerFunc(s.func3)))
+	http.Handle("/", Middleware(http.HandlerFunc(s.initializeChatOrButton)))
+	http.Handle("/:sessionUUID/:user", Middleware(http.HandlerFunc(s.Front)))
+	http.Handle("/SetAddress", Middleware(http.HandlerFunc(s.SetAddressAndChat)))
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func StartServer() {
-	lis, err := net.Listen("tcp", ":9290")
+	lis, err := net.Listen("tcp", ":80")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 		return

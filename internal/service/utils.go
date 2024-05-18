@@ -9,7 +9,7 @@ import (
 )
 
 func Middleware(next http.Handler) http.Handler {
-	hmacSecret := os.Getenv("SECRET_KEY")
+	Token := os.Getenv("SECRET_KEY")
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
@@ -21,7 +21,7 @@ func Middleware(next http.Handler) http.Handler {
 			return
 		}
 
-		if bearerToken != hmacSecret {
+		if bearerToken != Token {
 			return
 		}
 
